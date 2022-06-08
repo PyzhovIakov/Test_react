@@ -118,30 +118,51 @@ export default function CustomPaginationActionsTable() {
     };
 
     const [form, setForm] = React.useState(null);
-    const formOpen1 = () => setForm('Edit');
-    const formOpen11 = () => setForm('Create');
-    const formClose = () => setForm(null);
+    const formOpen = (F) => setForm(F);
 
     const [RowIndex, setRowIndex] = React.useState(null);
     const [RowName, setRowName] = React.useState(null);
     const [RowCalories, setRowCalories] = React.useState(null);
     const [RowFat, setRowFat] = React.useState(null);
     function ClickRow(event,row,index){
-      if(form!==null){
-          setRowName(row.name)
-          setRowCalories(row.calories)
-          setRowFat(row.fat)
-          setRowIndex(index)
-      }
+        if(form!==null){
+            setRowName(row.name)
+            setRowCalories(row.calories)
+            setRowFat(row.fat)
+            setRowIndex(index)
+        }
     }
     function CreateRow(formData){
-        rows.push(createData(formData.name, formData.calories, formData.fat))
-        setForm(null)
-
+        if(formData.name!=="" && formData.calories!=="" && formData.fat!==""){
+            rows.push(createData(formData.name, formData.calories, formData.fat))
+            setForm(null)
+            setRowName(null)
+            setRowCalories(null)
+            setRowFat(null)
+            setRowIndex(null)
+        }
     }
     function EditRow(formData,i){
-        rows[i]=createData(formData.name, formData.calories, formData.fat)
-        setForm(null)
+        if(i>=0){
+            if(formData.name!=="" && formData.calories!=="" && formData.fat!==""){
+                rows[i] = createData(formData.name, formData.calories, formData.fat)
+                setForm(null)
+                setRowName(null)
+                setRowCalories(null)
+                setRowFat(null)
+                setRowIndex(null)
+            }
+        }
+    }
+    function DeleteRow(i){
+        if(i>=0){
+            rows.splice(i,1)
+            setForm(null)
+            setRowName(null)
+            setRowCalories(null)
+            setRowFat(null)
+            setRowIndex(null)
+        }
     }
     return (
         <>
@@ -218,15 +239,15 @@ export default function CustomPaginationActionsTable() {
                            index={RowIndex}
                            clicEdit={EditRow}
                            clicCreate={CreateRow}
+                           clicDelete={DeleteRow}
                            formsV={form}
                        />:null
                 }
 
             </Box>
             <Speeddial
-                clickOpen1={formOpen1}
-                clickOpen11={formOpen11}
-                clickClose={formClose}
+                clickOpen={formOpen}
+                index={RowIndex}
             />
         </>
     );

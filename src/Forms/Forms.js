@@ -3,20 +3,23 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 export default function Forms(props) {
+
     const [formData, setFormData] = React.useState(
         {
+            index:-2,
             F:true,
             name:"",
             calories:"",
             fat: ""
         }
     )
-    if(props.name!==null && formData.F===true){
+    if(props.name!==null  && props.index!==formData.index){
         setFormData({
             F:false,
             name: props.name,
             calories:props.calories,
-            fat: props.fat
+            fat: props.fat,
+            index: props.index
         })
     }
     function handleChange(event) {
@@ -82,11 +85,9 @@ export default function Forms(props) {
                     shrink: true,
                 }}
             />
-            {
-                 props.formsV==='Edit'
-                     ?<Button variant="text" onClick={()=>props.clicEdit(formData,props.index)}>{props.formsV}</Button>
-                     : <Button variant="text" onClick={()=>props.clicCreate(formData)}>{props.formsV}</Button>
-            }
+            {props.formsV==='Edit' ?<Button variant="text" onClick={()=>props.clicEdit(formData,formData.index)}>{props.formsV}</Button> :null}
+            {props.formsV==='Create' ? <Button variant="text" onClick={()=>props.clicCreate(formData)}>{props.formsV}</Button>:null}
+            {props.formsV==='Delete' ?<Button variant="text" onClick={()=>props.clicDelete(formData.index)}>{props.formsV}</Button> : null}
 
         </Box>
     )

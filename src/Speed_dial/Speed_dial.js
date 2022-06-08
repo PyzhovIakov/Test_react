@@ -17,23 +17,15 @@ export default function ControlledOpenSpeedDial(props) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
 
-    function handleClose1(){
-        props.clickOpen1()
-        setOpen(false)
-    }
-    function handleClose11(){
-        props.clickOpen11()
-        setOpen(false)
-    }
-    function handleClose2(){
-        props.clickClose()
+    function handleClose1(event,EV){
+        props.clickOpen(EV)
         setOpen(false)
     }
     function handleClose(){
         setOpen(false)
     }
     return (
-        <Box sx={{ height: 70, transform: 'translateZ(0px)', flexGrow: 1 }}>
+        <Box sx={{ position: 'fixed', bottom: 120, right: 20,height: 70, transform: 'translateZ(0px)', flexGrow: 1 }}>
             <SpeedDial
                 ariaLabel="SpeedDial controlled open example"
                 sx={{ position: 'absolute', bottom: 20, right: 20 }}
@@ -43,38 +35,14 @@ export default function ControlledOpenSpeedDial(props) {
                 open={open}
             >
                 {actions.map((action) =>{
-                    if (action.name==='Delete'){
-                        return (
+                    return (
                             <SpeedDialAction
                                 key={action.name}
                                 icon={action.icon}
                                 tooltipTitle={action.name}
-                                onClick={handleClose2}
+                                onClick={(e)=>handleClose1(e,action.name)}
                             />
                         )
-                    }
-                    if (action.name==='Edit'){
-                        return (
-                            <SpeedDialAction
-                                key={action.name}
-                                icon={action.icon}
-                                tooltipTitle={action.name}
-                                onClick={handleClose1}
-                            />
-                        )
-                    }
-                    if (action.name==='Create'){
-                        return (
-                            <SpeedDialAction
-                                key={action.name}
-                                icon={action.icon}
-                                tooltipTitle={action.name}
-                                onClick={handleClose11}
-                            />
-                        )
-                    }
-                    return 0;
-
                    })};
             </SpeedDial>
         </Box>
