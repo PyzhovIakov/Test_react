@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import Speeddial from '../Speed_dial/Speed_dial'
 import Forms from '../Forms/Forms'
 import Pagination from "./Pagination/Pagination";
+import Dialog from './Dialog/Dialog'
 
 function createData(name, calories, fat) {
     return { name, calories, fat };
@@ -33,9 +34,7 @@ const rows = [
 
 export default function CustomPaginationActionsTable() {
     const [page, setPage] = React.useState(0);
-
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -48,20 +47,26 @@ export default function CustomPaginationActionsTable() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-
+    //данные формы
     const [form, setForm] = React.useState(null);
-    const formOpen = (F) => setForm(F);
+    const formOpen = (F) => {
+        setForm(F)
+        setDialog(false)
+    };
     const [RowIndex, setRowIndex] = React.useState(null);
     const [RowName, setRowName] = React.useState(null);
     const [RowCalories, setRowCalories] = React.useState(null);
     const [RowFat, setRowFat] = React.useState(null);
+
+    //данные диалога
+    const [openDialog, setDialog] = React.useState(false);
+
     function ClickRow(event,row,index){
-        if(form!==null){
-            setRowName(row.name)
-            setRowCalories(row.calories)
-            setRowFat(row.fat)
-            setRowIndex(index)
-        }
+        setDialog(true)
+        setRowName(row.name)
+        setRowCalories(row.calories)
+        setRowFat(row.fat)
+        setRowIndex(index)
     }
     function CreateRow(formData){
         if(formData.name!=="" && formData.calories!=="" && formData.fat!==""){
@@ -76,7 +81,7 @@ export default function CustomPaginationActionsTable() {
     function EditRow(formData,i){
         if(i>=0){
             if(formData.name!=="" && formData.calories!=="" && formData.fat!==""){
-                rows[i] = createData(formData.name, formData.calories, formData.fat)
+                rows[i+(page*rowsPerPage)] = createData(formData.name, formData.calories, formData.fat)
                 setForm(null)
                 setRowName(null)
                 setRowCalories(null)
@@ -86,8 +91,9 @@ export default function CustomPaginationActionsTable() {
         }
     }
     function DeleteRow(i){
+        setDialog(false)
         if(i>=0){
-            rows.splice(i,1)
+            rows.splice(i+(page*rowsPerPage),1)
             setForm(null)
             setRowName(null)
             setRowCalories(null)
@@ -155,6 +161,17 @@ export default function CustomPaginationActionsTable() {
                 </TableContainer>
             </Box>
             {
+                openDialog?
+                    <Dialog
+                        clicDelete={DeleteRow}
+                        clickFormOpen={formOpen}
+                        index={RowIndex}
+                        open={openDialog}
+                        closeDialog={setDialog}
+                    />:
+                    null
+            }
+            {
                 (form!==null) ?
                     <Forms
                         name={RowName}
@@ -163,7 +180,6 @@ export default function CustomPaginationActionsTable() {
                         index={RowIndex}
                         clicEdit={EditRow}
                         clicCreate={CreateRow}
-                        clicDelete={DeleteRow}
                         clickClouseForm={formOpen}
                         formsV={form}
                     />:null

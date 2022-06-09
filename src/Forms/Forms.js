@@ -94,7 +94,7 @@ export default function Forms(props) {
                 />
                 {props.formsV==='Edit' ?<Button variant="text" onClick={()=>props.clicEdit(formData,formData.index)}>{props.formsV}</Button> :null}
                 {props.formsV==='Create' ? <Button variant="text" onClick={()=>props.clicCreate(formData)}>{props.formsV}</Button>:null}
-                {props.formsV==='Delete' ?<Button variant="text" onClick={()=>props.clicDelete(formData.index)}>{props.formsV}</Button> : null}
+
 
             </Box>
             <Box sx={{
