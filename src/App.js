@@ -1,9 +1,12 @@
 import  React from 'react';
 import Table from'./Table/Table'
-// import './App.css'
+ import './App.css'
 export default function App() {
 
   return (
-      <Table/>
+      <div className={'App'}>
+        <Table/>
+      </div>
+
   );
 }

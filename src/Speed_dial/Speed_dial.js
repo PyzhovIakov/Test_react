@@ -25,7 +25,7 @@ export default function ControlledOpenSpeedDial(props) {
         setOpen(false)
     }
     return (
-        <Box sx={{ position: 'fixed', bottom: 120, right: 20,height: 70, transform: 'translateZ(0px)', flexGrow: 1 }}>
+        <Box sx={{ position: 'fixed',top: 420, right: 20,height: 70, transform: 'translateZ(0px)', flexGrow: 1 }}>
             <SpeedDial
                 ariaLabel="SpeedDial controlled open example"
                 sx={{ position: 'absolute', bottom: 20, right: 20 }}

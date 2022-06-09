@@ -38,57 +38,76 @@ export default function Forms(props) {
     }
 
     return(
-        <Box
-            component="form"
-            sx={{
-                border: '1px solid grey',
-                boxShadow: 8,
-                m:10,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent:'center',
-                alignItems: 'center',
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            onSubmit={handleSubmit}
-        >
-            <TextField
-                required
-                InputLabelProps={{ shrink: true }}
-                id="name"
-                name="name"
-                label="Required"
-                value={formData.name}
-                onChange={handleChange}
-            />
-            <TextField
-                required
-                id="calories"
-                label="Number"
-                name="calories"
-                type="number"
-                onChange={handleChange}
-                value={formData.calories}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-            />
-            <TextField
-                required
-                id="fat"
-                name="fat"
-                label="Number"
-                type="number"
-                onChange={handleChange}
-                value={formData.fat}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-            />
-            {props.formsV==='Edit' ?<Button variant="text" onClick={()=>props.clicEdit(formData,formData.index)}>{props.formsV}</Button> :null}
-            {props.formsV==='Create' ? <Button variant="text" onClick={()=>props.clicCreate(formData)}>{props.formsV}</Button>:null}
-            {props.formsV==='Delete' ?<Button variant="text" onClick={()=>props.clicDelete(formData.index)}>{props.formsV}</Button> : null}
+        <>
 
-        </Box>
+            <Box
+                component="form"
+                sx={{
+                    backgroundColor: 'background.default',
+                    zIndex:800,
+                    border: '1px solid grey',
+                    boxShadow: 8,
+                    m:1,
+                    position:'absolute',
+                    top:'20%',
+                    left:'42%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent:'center',
+                    alignItems: 'center',
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                }}
+                onSubmit={handleSubmit}
+            >
+                <TextField
+                    required
+                    InputLabelProps={{ shrink: true }}
+                    id="name"
+                    name="name"
+                    label="Required"
+                    value={formData.name}
+                    onChange={handleChange}
+                />
+                <TextField
+                    required
+                    id="calories"
+                    label="Number"
+                    name="calories"
+                    type="number"
+                    onChange={handleChange}
+                    value={formData.calories}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                <TextField
+                    required
+                    id="fat"
+                    name="fat"
+                    label="Number"
+                    type="number"
+                    onChange={handleChange}
+                    value={formData.fat}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                {props.formsV==='Edit' ?<Button variant="text" onClick={()=>props.clicEdit(formData,formData.index)}>{props.formsV}</Button> :null}
+                {props.formsV==='Create' ? <Button variant="text" onClick={()=>props.clicCreate(formData)}>{props.formsV}</Button>:null}
+                {props.formsV==='Delete' ?<Button variant="text" onClick={()=>props.clicDelete(formData.index)}>{props.formsV}</Button> : null}
+
+            </Box>
+            <Box sx={{
+                backgroundColor:'#ccc',
+                zIndex:600,
+                position:'absolute',
+                top:0,
+                width: '100vw',
+                height: '100vh',
+                opacity:'80%'
+
+            }} onClick={()=>props.clickClouseForm(null)}
+            />
+        </>
     )
 }
