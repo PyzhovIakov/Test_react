@@ -31,38 +31,18 @@ function createData(name, calories, fat) {
 //     createData('Nougat', 360, 19.0),
 //     createData('Oreo', 437, 18.0),
 // ]
-const rows=[]
-
-export default function CustomPaginationActionsTable() {
-    const [users, setUsers] = React.useState([]);
-    const urlJson= 'https://jsonplaceholder.typicode.com/users';
-
-    React.useEffect(()=>{
-        const fetchData = async ()=>{
-            fetch(urlJson)
-                .then(response => response.json())
-                .then(json => setUsers(json))
-            // const users_data = await axios(urlJson);
-            // setUsers(users_data);
-
-        };
-        fetchData();
-    },[setUsers])
-
-    if(rows.length===0){
-        users.map(user=>rows.push(createData(user.username,user.address.geo.lat,user.address.geo.lng)))
-        console.log(rows)
-    }
 
 
-
+export default function CustomPaginationActionsTable(props) {
+    // rows.splice(0,rows.length);
+    // props.rows.map(row=>rows.push(row))
 
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
 
     const handleChangePage = (event, newPage) => {
           setPage(newPage);
@@ -72,6 +52,7 @@ export default function CustomPaginationActionsTable() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
     //данные формы
     const [form, setForm] = React.useState(null);
     const formOpen = (F) => {
@@ -95,7 +76,7 @@ export default function CustomPaginationActionsTable() {
     }
     function CreateRow(formData){
         if(formData.name!=="" && formData.calories!=="" && formData.fat!==""){
-            rows.push(createData(formData.name, formData.calories, formData.fat))
+            props.rows.push(createData(formData.name, formData.calories, formData.fat))
             setForm(null)
             setRowName(null)
             setRowCalories(null)
@@ -106,7 +87,7 @@ export default function CustomPaginationActionsTable() {
     function EditRow(formData,i){
         if(i>=0){
             if(formData.name!=="" && formData.calories!=="" && formData.fat!==""){
-                rows[i+(page*rowsPerPage)] = createData(formData.name, formData.calories, formData.fat)
+                props.rows[i+(page*rowsPerPage)] = createData(formData.name, formData.calories, formData.fat)
                 setForm(null)
                 setRowName(null)
                 setRowCalories(null)
@@ -118,7 +99,7 @@ export default function CustomPaginationActionsTable() {
     function DeleteRow(i){
         setDialog(false)
         if(i>=0){
-            rows.splice(i+(page*rowsPerPage),1)
+            props.rows.splice(i+(page*rowsPerPage),1)
             setForm(null)
             setRowName(null)
             setRowCalories(null)
@@ -144,8 +125,8 @@ export default function CustomPaginationActionsTable() {
                     <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
                         <TableBody>
                             {(rowsPerPage > 0
-                                    ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    : rows
+                                    ? props.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    : props.rows
                             ).map((row,index) => {
 
                                 return(
@@ -175,7 +156,7 @@ export default function CustomPaginationActionsTable() {
                         </TableBody>
                         <TableFooter>
                                 <Pagination
-                                    count={rows.length}
+                                    count={props.rows.length}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
                                     onPageChange={handleChangePage}
@@ -199,6 +180,8 @@ export default function CustomPaginationActionsTable() {
             {
                 (form!==null) ?
                     <Forms
+                        typeI={props.textI}
+                        labelI={props.labelI}
                         name={RowName}
                         calories={RowCalories}
                         fat={RowFat}

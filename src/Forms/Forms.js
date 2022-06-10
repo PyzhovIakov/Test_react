@@ -62,18 +62,19 @@ export default function Forms(props) {
                 <TextField
                     required
                     InputLabelProps={{ shrink: true }}
+                    type={props.typeI[0]}
+                    label={props.labelI[0]}
                     id="name"
                     name="name"
-                    label="Required"
                     value={formData.name}
                     onChange={handleChange}
                 />
                 <TextField
                     required
                     id="calories"
-                    label="Number"
                     name="calories"
-                    type="number"
+                    type={props.typeI[1]}
+                    label={props.labelI[1]}
                     onChange={handleChange}
                     value={formData.calories}
                     InputLabelProps={{
@@ -84,8 +85,8 @@ export default function Forms(props) {
                     required
                     id="fat"
                     name="fat"
-                    label="Number"
-                    type="number"
+                    type={props.typeI[2]}
+                    label={props.labelI[2]}
                     onChange={handleChange}
                     value={formData.fat}
                     InputLabelProps={{
