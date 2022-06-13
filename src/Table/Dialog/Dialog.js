@@ -14,7 +14,7 @@ export default function AlertDialog(props) {
                 onClose={()=>props.closeDialog(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                PaperProps={{ sx: { position: "absolute", top:53*props.index+'px', left: '73%', m: 0 } }}
+                PaperProps={{ sx: { position: "absolute", top:48+53*props.index+'px', left: '73%', m: 0 } }}
             >
                 <List sx={{
                     pt: 0 }}

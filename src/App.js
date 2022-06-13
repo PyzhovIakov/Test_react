@@ -9,53 +9,64 @@ import TabPanel from '@mui/lab/TabPanel';
 function createData(name, calories, fat) {
     return { name, calories, fat };
 }
+let  loading=true
+const urlJson= 'https://jsonplaceholder.typicode.com/users';
 
-const rows1=[]
-const rows2=[]
-const rows3=[]
+
 
 export default function App() {
     //jsonplaceholder
-    const [users, setUsers] = React.useState([]);
-    const urlJson= 'https://jsonplaceholder.typicode.com/users';
+    let rows1=[]
+    let rows2=[]
+    let rows3=[]
+
+    const [tab1, setTab1] = React.useState([]);
+    const [tab2, setTab2] = React.useState([]);
+    const [tab3, setTab3] = React.useState([]);
 
     React.useEffect(()=>{
         const fetchData = async ()=>{
-            fetch(urlJson)
-                .then(response => response.json())
-                .then(json => setUsers(json))
-            // const users_data = await axios(urlJson);
-            // setUsers(users_data);
+            if(loading){
+                fetch(urlJson)
+                    .then(response => response.json())
+                    .then(json => {
+                        // eslint-disable-next-line array-callback-return
+                            json.map(user=>{
+                                rows1.push(createData(user.username,user.address.geo.lat,user.address.geo.lng))
+                                rows2.push( createData(user.username,user.name,user.email))
+                                rows3.push(createData(user.username,user.name,user.website))
+                            })
+                            setTab1(rows1)
+                            setTab2(rows2)
+                            setTab3(rows3)
+                        })
+                loading=false
+            }
+        }
+            fetchData();
+    },)
 
-        };
-        fetchData();
-    },[setUsers])
-
-    if(rows1.length===0){
-        users.map(user=>rows1.push(createData(user.username,user.address.geo.lat,user.address.geo.lng)))
-        users.map(user=>rows2.push(createData(user.username,user.name,user.email)))
-        users.map(user=>rows3.push(createData(user.username,user.name,user.website)))
-    }
 
     const [value, setValue] = React.useState('1');
+
 
     const handleChange = (event,newValue) => {
         setValue(newValue);
     };
   return (
 
-      <Box sx={{ width: '100%', typography: 'body1' }}>
-          <TabContext value={value}>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ width: '100vw', typography: 'body1' , p:0}}>
+          <TabContext value={value} sx={{width:'100vw', p:0}}>
+              <Box sx={{ width: '100vw', borderBottom: 1, borderColor: 'divider' , p:0}}>
                   <TabList onChange={handleChange} aria-label="lab API tabs example">
                       <Tab label="Table one" value="1" />
                       <Tab label="Table Two" value="2" />
                       <Tab label="Table Three" value="3" />
                   </TabList>
               </Box>
-              <TabPanel value="1"> <Table rows={rows1} textI={['text','number','number']} labelI={['user name','address geo lat','address geo lng']}/></TabPanel>
-              <TabPanel value="2">  <Table rows={rows2} textI={['text','text','text']} labelI={['user name','name','email']}/></TabPanel>
-              <TabPanel value="3">  <Table rows={rows3} textI={['text','text','text']} labelI={['user name','name','website']}/></TabPanel>
+              <TabPanel value="1" sx={{ width: '100vw', p:0}}> <Table rows={tab1} textI={['text','number','number']} labelI={['user name','address geo lat','address geo lng']}/></TabPanel>
+              <TabPanel value="2" sx={{ width: '100vw', p:0}}> <Table rows={tab2} textI={['text','text','email']} labelI={['user name','name','email']}/></TabPanel>
+              <TabPanel value="3" sx={{ width: '100vw', p:0}}> <Table rows={tab3} textI={['text','text','text']} labelI={['user name','name','website']}/></TabPanel>
           </TabContext>
       </Box>
 

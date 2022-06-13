@@ -18,7 +18,7 @@ export default function Forms(props) {
             F:false,
             name: props.name,
             calories:props.calories,
-            fat: props.fat,
+            fat:props.fat,
             index: props.index
         })
     }
