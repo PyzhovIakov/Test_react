@@ -36,9 +36,9 @@ export default function Forms(props) {
         event.preventDefault()
         // submitToApi(formData)
     }
+
     return(
         <>
-
             <Box
                 component="form"
                 sx={{
@@ -59,19 +59,20 @@ export default function Forms(props) {
                 onSubmit={handleSubmit}
             >
                 {
-                    ['name', 'calories', 'fat'].map((item, index) => (
-                        <TextField
-                            key={item+index}
-                            required
-                            InputLabelProps={{ shrink: true }}
-                            type={props.typeI[index]}
-                            label={props.labelI[index]}
-                            id={item}
-                            name={item}
-                            value={formData.item}
-                            onChange={handleChange}
-                        />
-                    ))
+                    ['name', 'calories', 'fat'].map((input,index) => {
+                        return(
+                            <TextField
+                                key={input+index}
+                                required
+                                InputLabelProps={{ shrink: true }}
+                                type={props.typeI[index]}
+                                label={props.labelI[index]}
+                                id={input}
+                                name={input}
+                                value={formData[input]}
+                                onChange={handleChange}
+                            />)
+                    })
                 }
                 {props.row!==null ?
                     <Button variant="text" onClick={()=>props.clicEdit(formData,formData.index)}>Edit</Button>
