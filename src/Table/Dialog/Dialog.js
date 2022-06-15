@@ -26,7 +26,9 @@ export default function AlertDialog(props) {
                             </Avatar>
                         </ListItemAvatar>
                     </ListItem>
-                    <ListItem onClick={() => props.clickFormOpen('Edit')}>
+                    <ListItem onClick={() => {
+                        props.closeDialog(false)
+                        props.clickFormOpen(true)}}>
                         <ListItemAvatar>
                             <Avatar>
                                 <EditIcon />

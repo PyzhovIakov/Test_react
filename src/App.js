@@ -9,47 +9,40 @@ import TabPanel from '@mui/lab/TabPanel';
 function createData(name, calories, fat) {
     return { name, calories, fat };
 }
-let  loading=true
+// let  loading=true
 const urlJson= 'https://jsonplaceholder.typicode.com/users';
 
 
 
 export default function App() {
     //jsonplaceholder
-    let rows1=[]
-    let rows2=[]
-    let rows3=[]
-
     const [tab1, setTab1] = React.useState([]);
     const [tab2, setTab2] = React.useState([]);
     const [tab3, setTab3] = React.useState([]);
 
-    React.useEffect(()=>{
-        const fetchData = async ()=>{
-            if(loading){
-                fetch(urlJson)
-                    .then(response => response.json())
-                    .then(json => {
-                        // eslint-disable-next-line array-callback-return
-                            json.map(user=>{
-                                rows1.push(createData(user.username,user.address.geo.lat,user.address.geo.lng))
-                                rows2.push( createData(user.username,user.name,user.email))
-                                rows3.push(createData(user.username,user.name,user.website))
-                            })
-                            setTab1(rows1)
-                            setTab2(rows2)
-                            setTab3(rows3)
-                        })
-                loading=false
-            }
-        }
-            fetchData();
-    },)
+    React.useEffect(() => {
+        (async () => {
+            fetch(urlJson)
+                .then(response => response.json())
+                .then((json) => {
+                    let rows1=[]
+                    let rows2=[]
+                    let rows3=[]
 
+                    json.forEach((user) => {
+                        rows1.push(createData(user.username,user.address.geo.lat,user.address.geo.lng))
+                        rows2.push(createData(user.username,user.name,user.email))
+                        rows3.push(createData(user.username,user.name,user.website))
+                    })
+
+                    setTab1(rows1)
+                    setTab2(rows2)
+                    setTab3(rows3)
+                })
+        })();
+    }, []);
 
     const [value, setValue] = React.useState('1');
-
-
     const handleChange = (event,newValue) => {
         setValue(newValue);
     };
@@ -64,9 +57,9 @@ export default function App() {
                       <Tab label="Table Three" value="3" />
                   </TabList>
               </Box>
-              <TabPanel value="1" sx={{ width: '100vw', p:0}}> <Table rows={tab1} textI={['text','number','number']} labelI={['user name','address geo lat','address geo lng']}/></TabPanel>
-              <TabPanel value="2" sx={{ width: '100vw', p:0}}> <Table rows={tab2} textI={['text','text','email']} labelI={['user name','name','email']}/></TabPanel>
-              <TabPanel value="3" sx={{ width: '100vw', p:0}}> <Table rows={tab3} textI={['text','text','text']} labelI={['user name','name','website']}/></TabPanel>
+              <TabPanel value="1" sx={{ width: '100vw', p:0}}> <Table setTab={setTab1} rows={tab1} textI={['text','number','number']} labelI={['user name','address geo lat','address geo lng']}/></TabPanel>
+              <TabPanel value="2" sx={{ width: '100vw', p:0}}> <Table setTab={setTab2} rows={tab2} textI={['text','text','email']} labelI={['user name','name','email']}/></TabPanel>
+              <TabPanel value="3" sx={{ width: '100vw', p:0}}> <Table setTab={setTab3} rows={tab3} textI={['text','text','text']} labelI={['user name','name','website']}/></TabPanel>
           </TabContext>
       </Box>
 

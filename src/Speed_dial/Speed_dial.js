@@ -8,7 +8,7 @@ export default function ControlledOpenSpeedDial(props) {
             <Fab
                 color="secondary"
                 aria-label="Create"
-                onClick={()=>props.clickOpen('Create')}
+                onClick={()=>props.clickOpen(true)}
             >
                 <AddCircleOutlineIcon />
             </Fab>

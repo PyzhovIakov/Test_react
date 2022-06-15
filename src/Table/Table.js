@@ -34,7 +34,7 @@ function createData(name, calories, fat) {
 
 
 export default function CustomPaginationActionsTable(props) {
-    console.log(props.rows)
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     // Avoid a layout jump when reaching the last page with empty rows.
@@ -50,16 +50,8 @@ export default function CustomPaginationActionsTable(props) {
     };
 
     //Form
-    const [form, setForm] = React.useState(null);
-    const formOpen = (F) => {
-        setForm(F)
-        setDialog(false)
-    };
-    const [Row, setRow] = React.useState({
-        name:null,
-        calories:null,
-        fat:null,
-        index:null});
+    const  [openForm, setOpenForm] = React.useState(false);
+    const [Row, setRow] = React.useState(null);
 
     //Dialog
     const [openDialog, setDialog] = React.useState(false);
@@ -74,39 +66,31 @@ export default function CustomPaginationActionsTable(props) {
     }
     function CreateRow(formData){
         if(formData.name!=="" && formData.calories!=="" && formData.fat!==""){
-            props.rows.push(createData(formData.name, formData.calories, formData.fat))
-            setForm(null)
-            setRow({
-                name:null,
-                calories:null,
-                fat:null,
-                index:null})
+            const b =props.rows
+            b.push(createData(formData.name, formData.calories, formData.fat))
+            props.setTab(b)
+            setOpenForm(false)
+            setRow(null)
         }
     }
     function EditRow(formData,i){
         if(i>=0){
             if(formData.name!=="" && formData.calories!=="" && formData.fat!==""){
-                props.rows[i+(page*rowsPerPage)] = createData(formData.name, formData.calories, formData.fat)
-                setForm(null)
-                setRow({
-                    name:null,
-                    calories:null,
-                    fat:null,
-                    index:null})
+                const b =props.rows
+                b[i+(page*rowsPerPage)] = createData(formData.name, formData.calories, formData.fat)
+                props.setTab(b)
+                setOpenForm(false)
+                setRow(null)
             }
         }
     }
     function DeleteRow(i){
         setDialog(false)
-        if(i>=0){
-            props.rows.splice(i+(page*rowsPerPage),1)
-            setForm(null)
-            setRow({
-                name:null,
-                calories:null,
-                fat:null,
-                index:null})
-        }
+            const b =props.rows
+            b.splice(i+(page*rowsPerPage),1)
+            props.setTab(b)
+        setOpenForm(false)
+            setRow(null)
     }
     return (
         <>
@@ -171,7 +155,7 @@ export default function CustomPaginationActionsTable(props) {
                 openDialog?
                     <Dialog
                         clicDelete={DeleteRow}
-                        clickFormOpen={formOpen}
+                        clickFormOpen={setOpenForm}
                         index={Row.index}
                         open={openDialog}
                         closeDialog={setDialog}
@@ -179,22 +163,18 @@ export default function CustomPaginationActionsTable(props) {
                     null
             }
             {
-                (form!==null) ?
+                (openForm) ?
                     <Forms
                         typeI={props.textI}
                         labelI={props.labelI}
-                        name={Row.name}
-                        calories={Row.calories}
-                        fat={Row.fat}
-                        index={Row.index}
+                        row={Row}
                         clicEdit={EditRow}
                         clicCreate={CreateRow}
-                        clickClouseForm={formOpen}
-                        formsV={form}
+                        clickClouseForm={setOpenForm}
                     />:null
             }
             <Speeddial
-                clickOpen={formOpen}
+                clickOpen={setOpenForm}
             />
         </>
     );

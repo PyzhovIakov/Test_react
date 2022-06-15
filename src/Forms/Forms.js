@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 export default function Forms(props) {
-
     const [formData, setFormData] = React.useState(
         {
             index:-2,
@@ -13,18 +12,19 @@ export default function Forms(props) {
             fat: ""
         }
     )
-    if(props.name!==null  && props.index!==formData.index){
-        setFormData({
-            F:false,
-            name: props.name,
-            calories:props.calories,
-            fat:props.fat,
-            index: props.index
-        })
+    if(props.row!==null){
+        if(props.row.index!==formData.index){
+            setFormData({
+                F:false,
+                name: props.row.name,
+                calories:props.row.calories,
+                fat:props.row.fat,
+                index: props.row.index
+            })
+        }
     }
     function handleChange(event) {
         const {name, value} = event.target
-
         setFormData(prevFormData => {
             return {
                 ...prevFormData,
@@ -36,7 +36,6 @@ export default function Forms(props) {
         event.preventDefault()
         // submitToApi(formData)
     }
-
     return(
         <>
 
@@ -59,42 +58,24 @@ export default function Forms(props) {
                 }}
                 onSubmit={handleSubmit}
             >
-                <TextField
-                    required
-                    InputLabelProps={{ shrink: true }}
-                    type={props.typeI[0]}
-                    label={props.labelI[0]}
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                />
-                <TextField
-                    required
-                    id="calories"
-                    name="calories"
-                    type={props.typeI[1]}
-                    label={props.labelI[1]}
-                    onChange={handleChange}
-                    value={formData.calories}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-                <TextField
-                    required
-                    id="fat"
-                    name="fat"
-                    type={props.typeI[2]}
-                    label={props.labelI[2]}
-                    onChange={handleChange}
-                    value={formData.fat}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-                {props.formsV==='Edit' ?<Button variant="text" onClick={()=>props.clicEdit(formData,formData.index)}>{props.formsV}</Button> :null}
-                {props.formsV==='Create' ? <Button variant="text" onClick={()=>props.clicCreate(formData)}>{props.formsV}</Button>:null}
+                {
+                    ['name', 'calories', 'fat'].map((item, index) => (
+                        <TextField
+                            key={item+index}
+                            required
+                            InputLabelProps={{ shrink: true }}
+                            type={props.typeI[index]}
+                            label={props.labelI[index]}
+                            id={item}
+                            name={item}
+                            value={formData.item}
+                            onChange={handleChange}
+                        />
+                    ))
+                }
+                {props.row!==null ?
+                    <Button variant="text" onClick={()=>props.clicEdit(formData,formData.index)}>Edit</Button>
+                    :<Button variant="text" onClick={()=>props.clicCreate(formData)}>Create</Button>}
 
 
             </Box>
@@ -107,7 +88,7 @@ export default function Forms(props) {
                 height: '100vh',
                 opacity:'80%'
 
-            }} onClick={()=>props.clickClouseForm(null)}
+            }} onClick={()=>props.clickClouseForm(false)}
             />
         </>
     )
