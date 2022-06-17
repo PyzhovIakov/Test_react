@@ -4,7 +4,6 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Speeddial from '../Speed_dial/Speed_dial'
@@ -139,16 +138,14 @@ export default function CustomPaginationActionsTable(props) {
                                 </TableRow>
                             )}
                         </TableBody>
-                        <TableFooter>
-                                <Pagination
-                                    count={props.rows.length}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    onPageChange={handleChangePage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                />
-                        </TableFooter>
                     </Table>
+                    <Pagination
+                        count={props.rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                 </TableContainer>
             </Box>
             {

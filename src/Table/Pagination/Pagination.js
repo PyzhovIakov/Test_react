@@ -8,8 +8,8 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import TableRow from '@mui/material/TableRow';
-
+// import TableRow from '@mui/material/TableRow';
+// import TableFooter from '@mui/material/TableFooter';
 function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
@@ -70,25 +70,29 @@ TablePaginationActions.propTypes = {
     page: PropTypes.number.isRequired,
     rowsPerPage: PropTypes.number.isRequired,
 };
+
 export default function Pagination(props) {
     return(
-        <TableRow>
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                colSpan={3}
-                count={props.count}
-                rowsPerPage={props.rowsPerPage}
-                page={props.page}
-                SelectProps={{
-                    inputProps: {
-                        'aria-label': 'rows per page',
-                    },
-                    native: true,
-                }}
-                onPageChange={props.onPageChange}
-                onRowsPerPageChange={props.onRowsPerPageChange}
-                ActionsComponent={TablePaginationActions}
-            />
-        </TableRow>
+    // <TableFooter>
+    //         <TableRow>
+                <TablePagination
+                    component="div"
+                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                    colSpan={3}
+                    count={props.count}
+                    rowsPerPage={props.rowsPerPage}
+                    page={props.page}
+                    SelectProps={{
+                        inputProps: {
+                            'aria-label': 'rows per page',
+                        },
+                        native: true,
+                    }}
+                    onPageChange={props.onPageChange}
+                    onRowsPerPageChange={props.onRowsPerPageChange}
+                    ActionsComponent={TablePaginationActions}
+                />
+    //         </TableRow>
+    // </TableFooter>
     )
 }

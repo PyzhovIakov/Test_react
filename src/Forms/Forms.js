@@ -12,17 +12,19 @@ export default function Forms(props) {
             fat: ""
         }
     )
-    if(props.row!==null){
-        if(props.row.index!==formData.index){
-            setFormData({
-                F:false,
-                name: props.row.name,
-                calories:props.row.calories,
-                fat:props.row.fat,
-                index: props.row.index
-            })
-        }
-    }
+    React.useEffect(() => {
+        (() => {
+            if(props.row!==null){
+                setFormData({
+                    F:false,
+                    name: props.row.name,
+                    calories:props.row.calories,
+                    fat:props.row.fat,
+                    index: props.row.index
+                })
+            }
+        })();
+    }, [props.row]);
     function handleChange(event) {
         const {name, value} = event.target
         setFormData(prevFormData => {
